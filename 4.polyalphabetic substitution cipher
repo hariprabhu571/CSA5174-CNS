@@ -1,0 +1,34 @@
+import string
+
+def encrypt(plaintext, key):
+    ciphertext = ""
+    key_idx = 0
+    
+    # Iterate over each character in the plaintext
+    for char in plaintext:
+        if char.isalpha():
+            # Get the key character for this letter
+            key_char = key[key_idx % len(key)]
+            key_idx += 1
+            
+            # Determine the shift amount based on the key character
+            shift = string.ascii_lowercase.index(key_char.lower())
+            
+            # Encrypt the letter using the monoalphabetic substitution cipher
+            if char.isupper():
+                ciphertext += chr((ord(char) - ord('A') + shift) % 26 + ord('A'))
+            else:
+                ciphertext += chr((ord(char) - ord('a') + shift) % 26 + ord('a'))
+        else:
+            # Leave non-alphabetic characters as is
+            ciphertext += char
+    
+    return ciphertext
+
+plaintext = "The quick brown fox jumps over the lazy dog."
+key = "secret"
+
+ciphertext = encrypt(plaintext, key)
+
+print("Plaintext: ", plaintext)
+print("Ciphertext:", ciphertext)
